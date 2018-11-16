@@ -1,0 +1,26 @@
+/*MAIN*/
+@import url("core/main.css");
+
+/*ICONS*/
+@import url("icons.css");
+
+/*TAGS*/
+@import url("core/tags.css");
+
+.container-background{
+    background-image: url("../img/background-clouds2.jpg");
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+.container-background .card, nav{
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.fab-container{
+    box-shadow: 0 0 !important;
+}
+
+
+
+

@@ -1,0 +1,88 @@
+<html>
+
+        <div class="tagCloud tag-div">
+                <ul>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">tag</a></li>
+                    <li><a href="#">consectetur adipisicing elit</a></li>
+                </ul>
+            </div>
+            
+<style>
+
+    .tag-div {
+        width: 480px;
+        margin: 5em auto 2.5em;
+    }
+
+    div:first-child {
+        margin-top: 3em;
+    }
+
+    .tagCloud ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .tagCloud ul li {
+        display: inline-block;
+        margin: 0 .3em .3em 0;
+        padding: 0;
+    }
+
+    .tagCloud ul li a {
+        display: inline-block;
+        max-width: 400px;
+        height: 28px;
+        line-height: 28px;
+        padding: 0 1em;
+        background-color: #fff;
+        border: 1px solid #aaa;
+        border-radius: 3px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        color: #333;
+        font-size: 13px;
+        text-decoration: none;
+        -webkit-transition: .2s;
+        transition: .2s;
+    }
+
+    .tagCloud ul li a:hover {
+        background-color: #3498db;
+        border: 1px solid #3498db;
+        color: #fff;
+    }
+
+
+
+</style>
+
+<script>
+    $(function () {
+        $('a').on('click', function () {
+            return false;
+        });
+    });
+</script>
+
+</html>

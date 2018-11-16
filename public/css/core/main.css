@@ -1,0 +1,159 @@
+.navbar-light .navbar-brand {
+    color: black;
+    font-size:  xx-large;
+}
+
+.nav-link{
+    color: black !important;
+}
+
+.navbar-toggler{
+    background-color: white;
+}
+.card-container{
+    margin-top: -80px;
+}
+
+.jumbotron{
+    background: transparent;
+}
+
+.title{
+    text-align:center;
+    margin-top: 8rem;
+    margin-bottom: 6rem;
+}
+
+.card{
+    margin-top: 20px;
+    max-width: 600px;
+}
+
+.title p{
+    color: white;
+    font-size: 1.5rem;
+}
+
+.title h1{
+    color: white;
+    font-size: 2rem;
+}
+
+.card span{
+    position: absolute;
+    display: block;
+    color: darken(#EDEDED, 10%);
+    right: 10px;
+    top: 5px;
+    font-size: 20px;
+}
+.card-banda span{
+    position: absolute;
+    display: block;
+    color: #EDEDED;
+    right: 15px;
+    top: 5px;
+    font-size: 30px;
+}
+.card-banda span:hover{
+    color: orange;
+}
+.card-container .card .input{
+    position: relative;
+    width: 90%;
+    margin: 15px 0;
+}
+.card .form-control{
+    margin-top: 15px;
+}
+.card .input-group-append{
+    margin-top: 15px;
+}
+
+.nueva-cancion .btn-secondary{
+    position: relative;
+    margin-top: 7px;
+    float: right;
+    margin-right: -3px;
+}
+
+.card-banda .btn-show{
+    margin-top: 10px;
+}
+
+.nueva-cancion .añadir{
+    margin-top: 30px;
+    padding: 0 0 30px 0;
+    background-color: white;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.card input{
+    width: 100%;
+    display: block;
+    border: 1px solid #EDEDED;
+    border-radius: 6px;
+}
+.section2{
+    margin: 50px 0;
+}
+
+.section2 .card-banda{
+    margin: 30px auto;
+}
+
+.section2 .card-banda h4, h5{
+    padding-bottom: 10px !important;
+}
+
+.card-banda h5{
+    padding-top: 10px !important;
+}
+
+.card-banda a{
+    text-decoration: none;
+}
+
+.card-banda p{
+    font-size: 1.2rem;
+    margin-bottom: 5px !important;
+}
+
+.nueva-cancion{
+    padding: 10px 10px 20px 30px;
+    margin: 15px 0;
+    background-color: white;
+    border-style: solid;
+    border-width: 1px 0 1px 0;
+
+}
+
+.error_campo{
+    border-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: red;
+}
+
+.nueva-cancion .input-group label{
+    display:block;
+    width:100%;
+    height:0;
+    margin: 10px 0 32px 10px;
+}
+
+.division{
+    background-color: white;
+    width: 100% !important;
+    padding: 10px;
+    opacity: .88;
+    display: block;
+    margin: 35px 0;
+    text-align: center;
+}
+.division h2{
+    color: black;
+    margin: 0 0 3px 0 !important;
+}
+
+
+
