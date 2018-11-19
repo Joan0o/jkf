@@ -1,5 +1,5 @@
 <!-- Modal -->
- 
+
 <div class="modal fade" id="{{ $modal }}" tabindex="-1" role="dialog" aria-labelledby="{{ $modal }}" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -18,6 +18,9 @@
         {{ $content }}
       </div>
       <div class="modal-footer">
+          @isset($save)
+            {{ $save }}
+          @endisset
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
       </div>
     </div>

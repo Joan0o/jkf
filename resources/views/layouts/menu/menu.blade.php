@@ -80,16 +80,16 @@
                                 <strong> registrala y </strong>
                                 comparte sus canciones e info en redes sociales!
                             </p>
-                            <form action="{{ route('bandas.store') }}" method="POST">
+                            <form id="form-nueva-banda" action="{{ route('bandas.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <label for="nombre"><strong>Nombre</strong></label>
-                                    <input class="form-control" id="nombre" placeholder="nombre" name="nombre" type="text">
+                                    <input class="form-control" id="banda-nombre" placeholder="nombre" name="nombre" type="text" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="bio"><strong>Info </strong> (puedes dejar este campo vacio)</label>
                                     <p>añade una pequeña descripción de tu banda</p>
-                                    <input class="form-control" id="bio" placeholder="Info ..." name="bio" type="area">
+                                    <input class="form-control" id="banda-bio" placeholder="Info ..." name="bio" type="area">
                                 </div>
                                 <button class="btn btn-primary">Registrar</button>
                             </form>

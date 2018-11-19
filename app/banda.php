@@ -4,12 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use DB;
+
 class banda extends Model
 {
     protected $table = "banda";
 
     protected $fillable = [
-        'id', 'nombre', 'bio',
+        'id', 'nombre', 'bio', 'estado'
     ];
 
 
@@ -20,6 +22,9 @@ class banda extends Model
         return $this->hasMany('App\cancion');
     }
     public function bandas(){
-        return banda::all()->where('id', '<>', 1);
+        return DB::table('banda')->where([
+            ['estado', '<>', '-1'],
+            ['id', '<>', '1'],
+        ])->get();
     }
 }

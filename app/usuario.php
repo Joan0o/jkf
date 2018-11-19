@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Auth;
 
 class usuario extends Authenticatable
 {
@@ -17,7 +18,7 @@ class usuario extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nombre', 'email', 'password',
+        'nombre', 'email', 'password', 'celular', 'rol'
     ];
 
     /**
@@ -32,5 +33,19 @@ class usuario extends Authenticatable
     public function bandas()
     {
         return $this->belongsToMany('App\banda', 'usuario_has_banda');
+    }
+
+    public static function from_user($banda){
+        if(Auth::id() !== null){
+            if(!isset(Auth::user()->bandas)){
+                return false;
+            }
+            foreach(Auth::user()->bandas as $banda_usuario){
+                if($banda_usuario->id == $banda->id){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

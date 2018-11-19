@@ -2,8 +2,8 @@
 -- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 13-11-2018 a las 07:20:41
+-- Servidor: localhost
+-- Tiempo de generación: 19-11-2018 a las 04:12:14
 -- Versión del servidor: 10.1.36-MariaDB
 -- Versión de PHP: 7.2.10
 
@@ -36,19 +36,20 @@ CREATE TABLE `banda` (
   `nombre` varchar(60) DEFAULT NULL,
   `bio` varchar(300) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `estado` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `banda`
 --
 
-INSERT INTO `banda` (`id`, `nombre`, `bio`, `created_at`, `updated_at`) VALUES
-(1, 'null', 'null', '2018-10-26 22:43:18', '0000-00-00 00:00:00'),
-(2, 'Dmind', 'Tributo a iron maiden', '2018-10-26 22:43:01', '2018-10-23 07:57:41'),
-(4, 'mi otra banda', 'Info', '2018-11-13 02:20:54', '2018-11-13 07:20:54'),
-(5, 'Un nombre serio', 'Oh it works', '2018-11-13 02:23:15', '2018-11-13 07:23:15'),
-(6, 'Banda de customer', 'dubi dubi duba dubi dubi dubaa', '2018-10-23 08:50:32', '2018-10-23 08:50:32');
+INSERT INTO `banda` (`id`, `nombre`, `bio`, `created_at`, `updated_at`, `estado`) VALUES
+(1, 'null', 'null', '2018-10-26 22:43:18', '0000-00-00 00:00:00', ''),
+(2, 'Dmind', 'Tributo a iron maiden', '2018-10-26 22:43:01', '2018-10-23 07:57:41', ''),
+(4, 'Mi otra banda', 'Mi otra descripcion', '2018-10-23 03:26:31', '2018-10-23 08:26:31', ''),
+(5, 'jiji', 'Oh it works', '2018-10-26 22:01:24', '2018-10-27 03:01:24', ''),
+(6, 'Banda de customer', 'dubi dubi duba dubi dubi dubaa', '2018-10-23 08:50:32', '2018-10-23 08:50:32', '');
 
 -- --------------------------------------------------------
 
@@ -73,9 +74,7 @@ INSERT INTO `cancion` (`id`, `nombre`, `links`, `banda_id`, `created_at`, `updat
 (1, '123', NULL, 2, '2018-10-23 08:07:26', '2018-10-23 08:07:26'),
 (2, 'what now', '[\"sfs\"]', 2, '2018-10-23 08:10:11', '2018-10-23 08:10:11'),
 (3, 'sdgsd', '[\"ss.com\"]', 2, '2018-10-23 08:18:16', '2018-10-23 08:18:16'),
-(4, '1', '[\"1\",\"3\"]', 5, '2018-10-27 03:01:53', '2018-10-27 03:01:53'),
-(5, 'una cancion', '[\"Aún no sé cómo hacer esto funcional pero hey... almenos está la opcion\",\"jeje\"]', 4, '2018-11-13 07:21:46', '2018-11-13 07:21:46'),
-(6, 'pinpon', '[\"jee\"]', 4, '2018-11-13 07:23:01', '2018-11-13 07:23:01');
+(4, '1', '[\"1\",\"3\"]', 5, '2018-10-27 03:01:53', '2018-10-27 03:01:53');
 
 -- --------------------------------------------------------
 
@@ -142,13 +141,7 @@ CREATE TABLE `ensayo` (
 INSERT INTO `ensayo` (`id`, `created_at`, `fecha_programada`, `hora`, `duracion`, `estado`, `pagado`, `banda_id`, `updated_at`, `contacto`) VALUES
 (3, '2018-10-27 07:54:25', '2018-10-27', 7, 1, 'reservado', '0', 1, '2018-10-27 07:54:25', '123 - 213'),
 (4, '2018-10-27 07:55:37', '2018-10-27', 7, 1, 'reservado', '0', 1, '2018-10-27 07:55:37', '123 - 213'),
-(5, '2018-11-13 07:53:10', '2018-11-13', 7, 2, 'reservado', '0', 2, '2018-11-13 07:53:10', NULL),
-(6, '2018-11-13 08:13:51', '2018-11-13', 9, 2, 'reservado', '0', 2, '2018-11-13 08:13:51', NULL),
-(7, '2018-11-13 08:25:04', '2018-11-13', 11, 1, 'reservado', '0', 1, '2018-11-13 08:25:04', 'Joan - 1012378884'),
-(8, '2018-11-13 09:38:20', '2018-11-13', 12, 2, 'reservado', '0', 1, '2018-11-13 09:38:20', '223 - ppe'),
-(9, '2018-11-13 10:12:15', '2018-11-13', 15, 1, 'reservado', '0', 1, '2018-11-13 10:12:15', '12 - 1ewq|'),
-(10, '2018-11-13 10:12:29', '2018-11-13', 16, 2, 'reservado', '0', 1, '2018-11-13 10:12:29', '12 - 1ewq|'),
-(11, '2018-11-13 10:17:04', '2018-11-13', 18, 1, 'reservado', '0', 1, '2018-11-13 10:17:04', '12 - 1ewq|');
+(5, '2018-11-14 20:51:27', '2018-11-14', 15, 1, 'reservado', '0', 1, '2018-11-14 20:51:27', '123 - 123');
 
 -- --------------------------------------------------------
 
@@ -242,7 +235,7 @@ CREATE TABLE `tema` (
 CREATE TABLE `usuario` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `email` varchar(150) NOT NULL,
+  `correo` varchar(150) NOT NULL,
   `password` varchar(200) NOT NULL,
   `celular` varchar(45) DEFAULT NULL,
   `documento` varchar(45) DEFAULT NULL,
@@ -250,17 +243,17 @@ CREATE TABLE `usuario` (
   `remember_token` varchar(100) DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `rol` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nombre`, `email`, `password`, `celular`, `documento`, `foto`, `remember_token`, `email_verified_at`, `updated_at`, `created_at`) VALUES
-(2, 'Joan Sebastián Varón forero', 'shuan779@gmail.com', '$2y$10$mUm1fwweiMWwQzDuRTb5OOkBKWWLqnxUyFEX9P1ATrdfZXW8fE45u', NULL, NULL, NULL, 'CdbLwMODcxagv5trGXKOkAWZrATekG08AsDvbKZUZ9vowaskSYb3A054sgFg', '2018-11-13 05:56:04', '2018-11-13 05:56:04', '2018-11-13 05:56:04'),
-(3, 'Customer', 'customer@customer.com', '$2y$10$KSrHuIEMDCaDWDJfjxxmVeL1XTjqwn2.gf1/vjets53/oNTpUf2TW', NULL, NULL, NULL, NULL, '2018-10-23 03:47:26', '2018-10-23 08:47:26', '2018-10-23 08:47:26'),
-(4, 'custom3', 'custom1@custom.com', '$2y$10$fmVyetYu3CNyhrdIL738N.vFFJW1/M2F7xIup6L54AFPNakuBTAay', NULL, NULL, NULL, NULL, '2018-11-13 06:18:27', '2018-11-13 11:18:27', '2018-11-13 11:18:27');
+INSERT INTO `usuario` (`id`, `nombre`, `correo`, `password`, `celular`, `documento`, `foto`, `remember_token`, `email_verified_at`, `updated_at`, `created_at`, `rol`) VALUES
+(2, 'Joan Sebastián Varón forero', 'shuan779@gmail.com', '$2y$10$nC1jZGlAWUFCMYVZDaLbkeF4lvKVlwUktozUKnwnlD9kr.wX3PNUS', NULL, NULL, NULL, 'kuU1uMt3pOGx8Rg0PJY7boMR3f5bZG0vcFxaOq4CAhSWJhNnLBLzxIa0ztyL', '2018-10-26 22:02:13', '2018-10-26 22:02:13', '2018-10-26 22:02:13', ''),
+(3, 'Customer', 'customer@customer.com', '$2y$10$KSrHuIEMDCaDWDJfjxxmVeL1XTjqwn2.gf1/vjets53/oNTpUf2TW', NULL, NULL, NULL, NULL, '2018-10-23 03:47:26', '2018-10-23 08:47:26', '2018-10-23 08:47:26', '');
 
 -- --------------------------------------------------------
 
@@ -338,7 +331,7 @@ ALTER TABLE `ejercicio`
 --
 ALTER TABLE `ensayo`
   ADD PRIMARY KEY (`id`,`banda_id`),
-  ADD KEY `fk_ensayo_banda_idx` (`banda_id`);
+  ADD KEY `ensayo_bando` (`banda_id`);
 
 --
 -- Indices de la tabla `membresia`
@@ -384,7 +377,7 @@ ALTER TABLE `tema`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `correounico` (`email`);
+  ADD UNIQUE KEY `correounico` (`correo`);
 
 --
 -- Indices de la tabla `usuario_has_banda`
@@ -416,7 +409,7 @@ ALTER TABLE `banda`
 -- AUTO_INCREMENT de la tabla `cancion`
 --
 ALTER TABLE `cancion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `comentarios`
@@ -440,7 +433,7 @@ ALTER TABLE `ejercicio`
 -- AUTO_INCREMENT de la tabla `ensayo`
 --
 ALTER TABLE `ensayo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `membresia`
@@ -470,7 +463,7 @@ ALTER TABLE `tema`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas
@@ -499,7 +492,7 @@ ALTER TABLE `ejercicio`
 -- Filtros para la tabla `ensayo`
 --
 ALTER TABLE `ensayo`
-  ADD CONSTRAINT `fk_ensayo_banda` FOREIGN KEY (`banda_id`) REFERENCES `banda` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `ensayo_bando` FOREIGN KEY (`banda_id`) REFERENCES `banda` (`id`);
 
 --
 -- Filtros para la tabla `membresia`
@@ -523,7 +516,7 @@ ALTER TABLE `respuestas`
 -- Filtros para la tabla `usuario_has_banda`
 --
 ALTER TABLE `usuario_has_banda`
-  ADD CONSTRAINT `fk_usuario_has_banda_banda1` FOREIGN KEY (`banda_id`) REFERENCES `banda` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_usuario_has_banda_banda1` FOREIGN KEY (`banda_id`) REFERENCES `banda` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_usuario_has_banda_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
@@ -532,6 +525,53 @@ ALTER TABLE `usuario_has_banda`
 ALTER TABLE `usuario_has_curso`
   ADD CONSTRAINT `fk_usuario_has_curso_curso1` FOREIGN KEY (`curso_id`) REFERENCES `curso` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_usuario_has_curso_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+ALTER TABLE `banda` ADD `estado` INT NOT NULL DEFAULT '1' AFTER `bio`;
+ALTER TABLE `usuario` CHANGE `correo` `email` VARCHAR(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+CREATE TABLE `tema_curso` (
+  `id` int(11) NOT NULL,
+  `curso_id` int(11) NOT NULL,
+  `tema_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `tema_curso`
+--
+ALTER TABLE `tema_curso`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `curso_id_fk` (`curso_id`),
+  ADD KEY `tema_id_fk` (`tema_id`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `tema_curso`
+--
+ALTER TABLE `tema_curso`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `tema_curso`
+--
+ALTER TABLE `tema_curso`
+  ADD CONSTRAINT `curso_id_fk` FOREIGN KEY (`curso_id`) REFERENCES `curso` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tema_id_fk` FOREIGN KEY (`tema_id`) REFERENCES `tema` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

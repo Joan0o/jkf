@@ -1,3 +1,12 @@
+@php
+    try{
+		$bandas = (new App\banda)->bandas(); 
+		$usuario = Auth::user(); 
+	}catch(Exception $e){ 
+		$bandas = [];
+		$usuario = new App\usuario;
+	}
+@endphp
 <!DOCTYPE html>
 <html lang="esp" >
     <head>
@@ -56,7 +65,7 @@
                                 <ul>
                                     @foreach ($bandas as $banda)
                                         <li>
-                                            <a class="tag-banda" banda_id="{{ $banda->id }}">
+                                            <a class="tag-banda @if(\App\usuario::from_user($banda))from-user @endif" banda_id="{{ $banda->id }}">
                                                 {{ $banda->nombre }}
                                             </a>
                                         </li>
@@ -96,6 +105,10 @@
                 @endslot
             @endcomponent
             <div id="modal-banda"></div>
+            @auth
+                @component('layouts.usuarios.perfil', ['usuario' => Auth::user()])
+                @endcomponent
+            @endauth
             @guest
                 @component('layouts.modal')
                     @slot('modal') auth-modal @endslot

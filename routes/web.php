@@ -12,19 +12,7 @@
 */
 
 Route::get('/', function () {
-
-	try{
-		$bandas = (new App\banda)->bandas(); 
-		$usuario = Auth::user(); 
-	}catch(Exception $e){ 
-		$bandas = [];
-		$usuario = new App\usuario;
-	}
-
-    return view('welcome')->with([
-    	'bandas' => $bandas,
-    	'usuario' => $usuario
-    ]);
+    return view('welcome');
 });
 
 Route::get('ensayos/{fecha}', 'EnsayoController@ensayos');
@@ -32,7 +20,18 @@ Route::post('ensayos/reservar', 'EnsayoController@store');
 
 Auth::routes();
 
-Route::resource(
-	'bandas', 'BandaController');
-Route::resource(
-	'canciones', 'CancionController')->only(['store']);
+Route::resource('bandas', 'BandaController');
+Route::resource('canciones', 'CancionController')->only(['store']);
+Route::resource('cursos', 'CursoController');
+
+Route::post('usuario/{id}', 'UsuarioController@update')->name('usuario.update');
+
+Route::get('admin', 'AdminController@index');
+
+Route::prefix('admin')->group(function () {
+    Route::middleware('admin')->group(function() {
+        Route::get('/', 'AdminController@index');
+
+        Route::resource('cursos', 'CursoController');
+    });
+});

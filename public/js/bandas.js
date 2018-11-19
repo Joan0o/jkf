@@ -190,3 +190,26 @@ $(document).on('submit', '.form-editar-banda', function (e) {
     e.preventDefault(); // avoid to execute the actual submit of the form.
 
 })
+
+$(document).on('click', '#btn-eliminar-banda', function () {
+    var b_id = $(this).attr('banda_id');
+    if (confirm('¿Estas serguro de querer eliminar esta banda?,\nNo podras acceder a su información ni compartirla de nuevo')) {
+        $.ajaxSetup({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+          });
+          
+        $.ajax({
+            url: '/bandas/' + b_id,
+            type: 'DELETE',
+            success: function (result) {
+                alert('Banda eliminada');
+                $('[banda_id=' + b_id + ']').remove();
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+})

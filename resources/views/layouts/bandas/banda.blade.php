@@ -34,8 +34,6 @@
                     </div>
                 </div>
             </form>
-
-
             <div class="canciones">
                 <h5>Canciones</h5>
         
@@ -75,7 +73,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="integrantes">
                 <h5 style="margin-top:10px;">Integrantes</h5>
                 <div class="integrantes">
@@ -128,6 +125,9 @@
                         </div>
                 </div>
             </div>
+            <br>
+            <meta name="csrf-token" content="{{ csrf_token() }}">
+            <button id="btn-eliminar-banda" data-dismiss="modal" banda_id="{{ $banda->id }}" class="btn btn-danger">Eliminar banda</button>
         </div>
         @endslot
     @endcomponent

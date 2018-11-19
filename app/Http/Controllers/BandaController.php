@@ -79,17 +79,12 @@ class BandaController extends Controller
         ])->render();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+    public function destroy(Request $request,$id){
+        $banda = banda::find($id);
+        $banda->estado = -1;
+        $banda->save;
     }
-
+    
     /**
      * Update the specified resource in storage.
      *

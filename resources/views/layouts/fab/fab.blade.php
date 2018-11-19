@@ -158,7 +158,7 @@
            onclick="event.preventDefault();
                          document.getElementById('logout-form').submit();">
         </a>
-        <a class="buttons fab-perfil" href="#" tooltip="Mi perfil"></a>
+        <a class="buttons fab-perfil" data-toggle="modal" data-target="#perfil"tooltip="Mi perfil"></a>
         <a class="buttons fab-mis-bandas" href="#" tooltip="Mis bandas"></a>
         <a class="buttons fab-reservas" id="m-e" data-toggle="modal" data-target="#calendar-modal" tooltip="Mis reservas"></a>
     @else

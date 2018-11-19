@@ -45,7 +45,7 @@ function horas(date, today, callback = null) {
     horario = [];
 
     let hora_de_hoy = (date != today) ? 7 : fecha.getHours();
-    if(hora_de_hoy < 7){
+    if (hora_de_hoy < 7) {
         hora_de_hoy = 7;
     }
 
@@ -92,7 +92,7 @@ function horas(date, today, callback = null) {
 
                 if ($("#horas option").length == 0) $("#horas").append('<option>Ya no puedes ensayar hoy, reserva mañana!</option>');
 
-                if(callback) callback();
+                if (callback) callback();
             }
         });
     } else {
@@ -108,7 +108,7 @@ $('#horas').on('change', function () {
     duracion();
 })
 
-function duracion(){
+function duracion() {
     var hora = $("#horas option:selected").val();
     var index = $("#horas option:selected")[0].index;
     var nh = $($('#horas option')[index + 1]).val();
@@ -140,17 +140,24 @@ $("#form-reserva").on('submit', function (e) {
     }
 
     form = $(this);
+    var hora = parseInt($('#horas').val());
+    var hora_final = parseInt($('#horas').val()) + parseInt($('[name="duracion"]:checked').val());
+
+    hora = (hora > 12) ? hora - 12 + ' pm ' : hora + ' am ';
+    hora_final = (hora_final > 12) ? hora_final - 12 + ' pm' : hora_final + ' am';
+
+
+    if (!confirm('Confirmar reserva de sala desde' + ((hora == 1) ? ' la ' : ' las ')
+        + hora + 'hasta' + ((hora == 1) ? ' la ' : ' las ')
+        + hora_final)) {
+        e.preventDefault();
+        return;
+    }
 
     $.post({
         url: "ensayos/reservar",
         data: form.serialize(), // serializes the form's elements.
         success: (e) => {
-            var hora_final = parseInt($('#horas').val()) + parseInt($('[name="duracion"]:checked').val());
-            alert(
-                'Sala reservada desde las  ' 
-                    + ($('#horas').val() <= 12) ? $('#horas').val() : $('#horas').val() - 12
-                    + ' hasta las ' 
-                    + (hora_final <= 12) ? hora_final : hora_final - 12 );
             $('#modal-contacto').modal('hide');
             horas(c_D, fecha.DateToString());
         },
@@ -167,3 +174,28 @@ $('#modal-contacto').on('hidden.bs.modal', function () {
     $('#contacto-nombre').prop('required', false)
     modalAbierto = false;
 })
+
+$(function () {
+    $("#user-img").change(function () {
+        var file = this.files[0];
+        var imagefile = file.type;
+        var match = ["image/jpeg", "image/png", "image/jpg"];
+        if (!((imagefile == match[0]) || (imagefile == match[1]) || (imagefile == match[2]))) {
+            $('#previewing').attr('src', 'noimage.png');
+            $("#message").html("<p id='error'>Please Select A valid Image File</p>" + "<h4>Note</h4>" + "<span id='error_message'>Only jpeg, jpg and png Images type allowed</span>");
+            return false;
+        }
+        else {
+            var reader = new FileReader();
+            reader.onload = imageIsLoaded;
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+});
+function imageIsLoaded(e) {
+    $("#user-img").css("color", "green");
+    $('#image_preview').css("display", "block");
+    $('#previewing').attr('src', e.target.result);
+    $('#previewing').attr('width', '250px');
+    $('#previewing').attr('height', '230px');
+};
