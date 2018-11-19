@@ -14,8 +14,8 @@
     @isset($cursos)
         @if(count($cursos) > 0)
             @foreach($cursos as $curso)
-                <div class="rounded" style="background-color:#ffa50091; margin-top:30px; padding:15px 20px 26px 33px;">
-                    <h1 style="color:white;">{{$curso->nombre}}</h1>
+                <div class="rounded" style="background-color:#ffffe1; margin-top:30px; padding:15px 20px 26px 33px;">
+                    <h2>{{$curso->nombre}}</h2>
                     <div class="container">
                         <p>{{$curso->descripcion}}</p>
                     </div>
