@@ -9,8 +9,11 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use \App\ensayo;
+use Auth;
 
-class reserva
+class reserva implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -21,7 +24,7 @@ class reserva
      *
      * @return void
      */
-    public function __construct(Ensayo $reserva)
+    public function __construct(ensayo $reserva)
     {
         $this->reserva = $reserva;
     }

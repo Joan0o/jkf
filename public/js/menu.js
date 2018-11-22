@@ -247,8 +247,8 @@ function showModal() {
     $('#contacto').prop('required', true)
     $('#contacto-nombre').prop('required', true)
     $('#modal-contacto').modal();
-
 }
+
 $("#form-reserva").on('submit', function (e) {
     if ($('#banda_id').val() == "1" != modalAbierto) {
         showModal();
@@ -274,12 +274,12 @@ $("#form-reserva").on('submit', function (e) {
     $.post({
         url: "ensayos/reservar",
         data: form.serialize(), // serializes the form's elements.
-        success: (e) => {
+        success: () => {
             $('#modal-contacto').modal('hide');
             horas(c_D, fecha.DateToString());
         },
-        error: (e) => {
-            console.log(e.message);
+        error: (error) => {
+            console.log(error)
         }
     });
 
@@ -309,6 +309,7 @@ $(function () {
         }
     });
 });
+
 function imageIsLoaded(e) {
     $("#user-img").css("color", "green");
     $('#image_preview').css("display", "block");

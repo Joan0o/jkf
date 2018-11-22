@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ensayo;
+use App\Events\reserva;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -51,14 +52,14 @@ class EnsayoController extends Controller
             $ensayo->banda_id = '1';
         }
 
+        $ensayo->save();
+
         try{
-            event(new reserva($ensayo))->toOthers();
+            event(new reserva($ensayo));
         }catch(Exception $e){
             return $e;
         }
-
-        $ensayo->save();
-
+        
         return 'done';
     }
 }

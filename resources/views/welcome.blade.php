@@ -1,8 +1,8 @@
 @php
     try{
-		$bandas = (new App\banda)->bandas(); 
-		$usuario = Auth::user(); 
-	}catch(Exception $e){ 
+		$bandas = (new App\banda)->bandas();
+		$usuario = Auth::user();
+	}catch(Exception $e){
 		$bandas = [];
 		$usuario = new App\usuario;
 	}
@@ -10,14 +10,13 @@
 <!DOCTYPE html>
 <html lang="esp" >
     <head>
-        <meta charset="UTF-8">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
+        <meta charset="UTF-8">
         <!--====== TITLE TAG ======-->
         <title>J K F</title>
 
         <!--====== FAVICON ICON =======-->
-        <link rel="shortcut icon" type="img/ico" href="img/drumstick.png" />
+        <link rel="shortcut icon" type="img/ico" href="img/drumstick.sgv" />
 
         <!--====== STYLESHEETS ======-->
         <link href="css/plugins/bootstrap.min.css" rel="stylesheet">
@@ -45,7 +44,7 @@
                             <p>Bienvenido al estudio y sala de ensayo</p>
                             <h1 style="font-size:3rem;">
                                                             J
-                                    <div style="color:orange">K</div>
+                                <div style="color:orange">K</div>
                                                             F
                             </h1>
                         </div>
@@ -155,5 +154,6 @@
         <script src="js/bandas.js"></script>
         <script src="js/app.js"></script>
         
+
     </body>
 </html>
