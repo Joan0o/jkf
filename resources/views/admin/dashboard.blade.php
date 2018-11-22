@@ -1,10 +1,3 @@
-@extends('admin.template')
-
-@section('sidebar')
-    @parent
-@stop
-
-@section('content')
 <div class="card" style="width:100%">
         <div class="card-header" style="padding:20px;">
             <h3>Nuevo</h3>
@@ -36,7 +29,7 @@
                 </div>
             </div>
         </div>
-    </div>
+</div>
 
 <script>
     Date.prototype.DateToString = function () {
@@ -64,6 +57,11 @@ var myCalendar = jsCalendar.new(element);
 setTimeout(function(){
     $('#my-calendar2').children()[1].remove();
 }, 100);
+setTimeout(function(){
+    if($('#my-calendar2').children()[1]){
+        $('#my-calendar2').children()[1].remove();
+    }
+}, 200);
 
 // Add events
 myCalendar.onDateClick(function (event, date) {
@@ -106,4 +104,3 @@ myCalendar.onDateClick(function (event, date) {
 });
 
 </script>
-@stop

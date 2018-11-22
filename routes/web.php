@@ -23,10 +23,13 @@ Auth::routes();
 Route::resource('bandas', 'BandaController');
 Route::resource('canciones', 'CancionController')->only(['store']);
 Route::resource('cursos', 'CursoController');
+Route::get('curso/buscar', 'CursoController@buscar');
 
 Route::post('usuario/{id}', 'UsuarioController@update')->name('usuario.update');
 
 Route::get('admin', 'AdminController@index');
+
+Route::get('dashboard', 'AdminController@dashboard')->middleware('admin');
 
 Route::prefix('admin')->group(function () {
     Route::middleware('admin')->group(function() {

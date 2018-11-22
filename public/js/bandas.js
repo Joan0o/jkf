@@ -95,11 +95,6 @@ $(document).on('click', '#btn-show', function () {
     }
 });
 
-function campo_vacio(campo) {
-    $(campo).attr().add("error_campo");
-    $(campo).focus();
-}
-
 var element = document.getElementById("my-calendar");
 
 // Create the calendar
@@ -157,7 +152,7 @@ $(".tag-banda").on('click', function () {
         url: "bandas/" + banda_id,
         dataType: "html",
         success: function (response) {
-            $('#modal-banda').html(response);
+            $('#modal-ajax').html(response);
             $('#m-c-banda').modal();
         },
         error: function (e) {

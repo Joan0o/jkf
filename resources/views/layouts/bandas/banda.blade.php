@@ -149,7 +149,7 @@
                             @if(count($banda->canciones) > 0)
                                     @foreach ($banda->canciones as $cancion)
                                     <li class="list-group-item">
-                                        nombre: <a href="{{ json_encode($cancion["links"])[0] }}"><p>{{ $cancion["nombre"] }}</p></a>
+                                        nombre: <a href="{{ json_encode($cancion['links'])[0] }}"><p>{{ $cancion["nombre"] }}</p></a>
                                     </li>
                                     @endforeach
                             @else

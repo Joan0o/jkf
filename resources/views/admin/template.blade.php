@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>J K F - ADMIN</title>
+    
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -32,36 +33,11 @@
     padding: 10px 10px 0 10px;
   }
 
-@media (max-width: 750px) {
-
-    .wrapper {
-        display: grid;
-        grid-gap: 10px;
-        grid-template-columns: 80% !important;
-        grid-template-areas:
-                "calendario"
-                "lista"
-                "notificaciones" !important;
-
-    }
-}
-
  @media (min-width: 500px) {
-
-    .wrapper {
-        display: grid;
-        grid-gap: 10px;
-        grid-template-columns: 80%;
-        grid-template-areas:
-                "calendario"
-                "lista"
-                "notificaciones";
-
-    }
     .main{
       position: absolute;
       width: calc(100% - 40px);
-      margin-left: 40px;
+      margin-left: 30px;
       float: right;
     }
 
@@ -159,31 +135,6 @@
   section{
     padding-left: 15px;
   }
-
-
-    .lista {
-        grid-area: lista;
-    }
-
-    .calendario {
-        grid-area: calendario;
-        margin: auto;
-    }
-
-    .notificaciones {
-        grid-area: notificaciones;
-    }
-
-
-    .wrapper {
-        display: grid;
-        grid-gap: 10px;
-        grid-template-columns: 40% 60%;
-        grid-template-areas:
-                "calendario lista"
-                "notificaciones notificaciones";
-
-    }
     </style>
 </head>
 <body>
@@ -199,18 +150,42 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/admin">Principal<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
-        <li ><a href="{{ route('cursos.index') }}">Cursos<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-th-list"></span></a></li>
-        <li ><a href="#">Ensayos<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-calendar"></span></a></li>
+        <li class="active"><a href="dashboard">Principal<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+        <li ><a class="a" href="cursos">Cursos<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-th-list"></span></a></li>
+        <li ><a class="a" href="#">Ensayos<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-calendar"></span></a></li>
         <li ><a href="#">Bandas<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-tags"></span></a></li>
       </ul>
     </div>
   </div>
 </nav>
 
-<div id="page" class="container">
-    @yield('content')
-</div>
+<div id="page" class="container"></div>
+
+<script>
+
+  var changed = false;
+  $("a").click(function (e) {
+    changed = true;
+    $.ajax({
+        url: $(this).attr('href'),
+        dataType: 'html', success: (r)=>{
+          $('#page').html(r);
+          location.hash = $(this).attr('href');
+        }
+      });
+      e.preventDefault();
+  });
+  $(document).ready(function() {
+    if(!changed)
+      $.ajax({
+        url: 'dashboard',
+        dataType: 'html',
+        success: (r)=> {
+          $('#page').html(r);
+        }
+      })
+  });
+</script>
 
 </body>
 </html>

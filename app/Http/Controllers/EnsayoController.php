@@ -6,6 +6,7 @@ use App\ensayo;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Mail;
 
 class EnsayoController extends Controller
 {
@@ -44,13 +45,20 @@ class EnsayoController extends Controller
 
         if (!isset($data['banda_id'])) {
             $ensayo->contacto = $data['nombre'] . ' - ' . $data['contacto'];
-            if(Auth::user() != null){
+            if (Auth::user() != null) {
                 $ensayo->contacto = Auth::user()->celular . ' - ' . Auth::user()->email;
             }
             $ensayo->banda_id = '1';
         }
 
+        try{
+            event(new reserva($ensayo))->toOthers();
+        }catch(Exception $e){
+            return $e;
+        }
+
         $ensayo->save();
+
         return 'done';
     }
 }

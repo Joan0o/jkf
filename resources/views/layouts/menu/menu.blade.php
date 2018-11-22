@@ -108,10 +108,10 @@
                             <strong>Busca el tuyo!</strong>
                         </p>
                         <div class="form-group">
-                            <input class="form-control" type="text">
+                            <input class="form-control" type="text" id="buscar-cursos" name="query">
                             <span><i class="fa fa-search"></i></span>
                         </div>       
-                        <a href="#" class="btn btn-primary">Buscar</a>
+                        <button id="buscar-curso-btn" class="btn btn-primary">Buscar</button>
                     </div>
                 </div>
             </div>

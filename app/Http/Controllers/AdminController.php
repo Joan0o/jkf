@@ -11,6 +11,10 @@ class AdminController extends Controller
      */
     public function index()
     {
+        return view('admin.template');
+    }
+
+    public function dashboard(){
         return view('admin.dashboard');
     }
 }

@@ -11,11 +11,13 @@
 <html lang="esp" >
     <head>
         <meta charset="UTF-8">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
         <!--====== TITLE TAG ======-->
         <title>J K F</title>
 
         <!--====== FAVICON ICON =======-->
-        <link rel="shortcut icon" type="img/ico" href="img/drumstick.sgv" />
+        <link rel="shortcut icon" type="img/ico" href="img/drumstick.png" />
 
         <!--====== STYLESHEETS ======-->
         <link href="css/plugins/bootstrap.min.css" rel="stylesheet">
@@ -43,7 +45,7 @@
                             <p>Bienvenido al estudio y sala de ensayo</p>
                             <h1 style="font-size:3rem;">
                                                             J
-                                <div style="color:orange">K</div>
+                                    <div style="color:orange">K</div>
                                                             F
                             </h1>
                         </div>
@@ -104,7 +106,7 @@
 
                 @endslot
             @endcomponent
-            <div id="modal-banda"></div>
+            <div id="modal-ajax"></div>
             @auth
                 @component('layouts.usuarios.perfil', ['usuario' => Auth::user()])
                 @endcomponent
@@ -152,6 +154,6 @@
 
         <script src="js/bandas.js"></script>
         <script src="js/app.js"></script>
-
+        
     </body>
 </html>

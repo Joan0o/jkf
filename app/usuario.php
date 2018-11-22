@@ -2,9 +2,9 @@
 
 namespace App;
 
+use Auth;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Auth;
 
 class usuario extends Authenticatable
 {
@@ -18,7 +18,7 @@ class usuario extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nombre', 'email', 'password', 'celular', 'rol'
+        'nombre', 'email', 'password', 'celular', 'rol',
     ];
 
     /**
@@ -35,17 +35,29 @@ class usuario extends Authenticatable
         return $this->belongsToMany('App\banda', 'usuario_has_banda');
     }
 
-    public static function from_user($banda){
-        if(Auth::id() !== null){
-            if(!isset(Auth::user()->bandas)){
+    public static function from_user($banda)
+    {
+        if (Auth::id() !== null) {
+            if (!isset(Auth::user()->bandas)) {
                 return false;
             }
-            foreach(Auth::user()->bandas as $banda_usuario){
-                if($banda_usuario->id == $banda->id){
+            foreach (Auth::user()->bandas as $banda_usuario) {
+                if ($banda_usuario->id == $banda->id) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    public function toMail($notifiable)
+    {
+        $url = url('/');
+
+        return (new MailMessage)
+            ->greeting('Hola!')
+            ->line('Acabas de reservar en la sala de ensayo a las ' . $ensayo['hora'] .'!')
+            ->action('Ir a la pegina', $url)
+            ->line('Ingresa en nuestra pagina, inicia sesión y podras ver todas las reservas que tienes');
     }
 }

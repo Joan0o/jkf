@@ -4,10 +4,9 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 
 use Closure;
-use Auth;
 use Middleware;
 
-class admin
+class tracker
 {
     /**
      * Handle an incoming request.
@@ -18,12 +17,6 @@ class admin
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::id() != null){
-            if(Auth::user()->rol != 'admin'){
-                return redirect('/');
-            }
-            return $next($request);
-        }
-        return redirect('/');
+        return $next($request);
     }
 }
