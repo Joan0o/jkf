@@ -41,19 +41,18 @@ class CursoController extends Controller
         try {
             if ($request['temas'] != null) {
                 $tags = explode(' ', $request['temas']);
-                dump($tags);
                 foreach ($tags as $tag) {
                     $id2 = DB::table('tema')->insert(
                         ['nombre' => $tag]
                     );
                     DB::table('tema_curso')->insert([
-                        'tema_id' => rand(100000),
+                        'tema_id' => rand(0,100000),
                         'curso_id' => $id,
                         'tema_id' => $id2,
                     ]
                     );
                     dump(DB::table('tema_curso')->insert([
-                        'tema_id' => rand(100000),
+                        'tema_id' => rand(0,100000),
                         'curso_id' => $id,
                         'tema_id' => $id2,
                     ]

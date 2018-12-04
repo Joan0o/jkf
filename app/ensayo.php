@@ -9,6 +9,12 @@ class ensayo extends Model
     protected $table = "ensayo";
 
     protected $fillable = [
-        'id', 'fecha_programada', 'hora', 'duracion', 'estado', 'pagado', 'banda_id', 'contacto'
+        'id', 'fecha_programada', 'hora', 'duracion',
+        'estado', 'pagado', 'banda_id', 'contacto',
+        'detalles'
     ];
+
+    public function banda(){
+        return $this->belongsTo('App\banda');
+    }
 }

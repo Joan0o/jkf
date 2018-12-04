@@ -32,7 +32,7 @@ class usuario extends Authenticatable
 
     public function bandas()
     {
-        return $this->belongsToMany('App\banda', 'usuario_has_banda');
+        return $this->belongsToMany('App\banda', 'usuario_has_banda')->where('estado', '<>', -1);
     }
 
     public static function from_user($banda)
@@ -50,14 +50,5 @@ class usuario extends Authenticatable
         return false;
     }
 
-    public function toMail($notifiable)
-    {
-        $url = url('/');
-
-        return (new MailMessage)
-            ->greeting('Hola!')
-            ->line('Acabas de reservar en la sala de ensayo a las ' . $ensayo['hora'] .'!')
-            ->action('Ir a la pegina', $url)
-            ->line('Ingresa en nuestra pagina, inicia sesión y podras ver todas las reservas que tienes');
-    }
+    
 }

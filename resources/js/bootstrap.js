@@ -1,6 +1,12 @@
 
 window._ = require('lodash');
 window.Popper = require('popper.js').default;
+try {
+    window.Snackbar = require('node-snackbar');
+} catch (error) {
+    console.log(error);    
+}
+
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support

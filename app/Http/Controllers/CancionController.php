@@ -20,7 +20,7 @@ class CancionController extends Controller
             'banda_id' => $data['banda_id'],
         ]); 
         
-        return view('layouts.bandas.cancion')->with('banda', banda::find($data['banda_id']))->render();
+        return view('layouts.bandas.pills')->with('collection', banda::find($data['banda_id'])->canciones)->render();
 
     }
 }

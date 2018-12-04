@@ -13936,6 +13936,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 window._ = __webpack_require__(16);
 window.Popper = __webpack_require__(3).default;
+try {
+    window.Snackbar = __webpack_require__(56);
+} catch (error) {
+    console.log(error);
+}
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -13944,9 +13949,9 @@ window.Popper = __webpack_require__(3).default;
  */
 
 try {
-  window.$ = window.jQuery = __webpack_require__(4);
+    window.$ = window.jQuery = __webpack_require__(4);
 
-  __webpack_require__(18);
+    __webpack_require__(18);
 } catch (e) {}
 
 /**
@@ -13968,9 +13973,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 var token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
-  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
 /**
@@ -13984,10 +13989,10 @@ if (token) {
 window.Pusher = __webpack_require__(40);
 
 window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
-  broadcaster: 'pusher',
-  key: "6a193a7f8646f077b64e",
-  cluster: "us2",
-  encrypted: true
+    broadcaster: 'pusher',
+    key: "6a193a7f8646f077b64e",
+    cluster: "us2",
+    encrypted: true
 });
 
 /***/ }),
@@ -68772,9 +68777,11 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
 /***/ (function(module, exports) {
 
 Echo.channel('reservas').listen('reserva', function (e) {
+    hora = e.reserva.hora > 12 ? parseInt(e.reserva.hora) - 12 + " pm" : e.reserva.hora + " am";
+    Snackbar.show({ text: 'nuevo ensayo registrado a las ' + hora, pos: 'bottom-left' });
+    alert(location.href);
+    alert(location.href.includes('admin'));
     if (location.href.includes("/admin")) {
-        hora = e.reserva.hora > 12 ? parseInt(e.reserva.hora) - 12 + " pm" : e.reserva.hora + " am";
-        alert('nuevo ensayo registrado a las ' + hora);
         $("#horas-ensayo").append('<a class="list-group-item list-group-item-action">' + 'De ' + hora + ' a ' + (parseInt(hora.substr(-3)) + parseInt(e.reserva.duracion)) + '<span class="badge badge-warning" style="margin-left:10px;">' + e['nombre'] + '</span>' + '<span class="badge badge-warning" style="margin-left:10px;">' + e['contacto'] + '</span>' + '</a>');
     } else {
         var horas = $('#horas option');
@@ -68791,6 +68798,199 @@ Echo.channel('reservas').listen('reserva', function (e) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * Snackbar v0.1.14
+ * http://polonel.com/Snackbar
+ *
+ * Copyright 2018 Chris Brame and other contributors
+ * Released under the MIT license
+ * https://github.com/polonel/Snackbar/blob/master/LICENSE
+ */
+
+(function(root, factory) {
+    'use strict';
+
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+            return (root.Snackbar = factory());
+        }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof module === 'object' && module.exports) {
+        module.exports = root.Snackbar = factory();
+    } else {
+        root.Snackbar = factory();
+    }
+})(this, function() {
+    var Snackbar = {};
+
+    Snackbar.current = null;
+    var $defaults = {
+        text: 'Default Text',
+        textColor: '#FFFFFF',
+        width: 'auto',
+        showAction: true,
+        actionText: 'Dismiss',
+        actionTextAria: 'Dismiss, Description for Screen Readers',
+        actionTextColor: '#4CAF50',
+        showSecondButton: false,
+        secondButtonText: '',
+        secondButtonAria: 'Description for Screen Readers',
+        secondButtonTextColor: '#4CAF50',
+        backgroundColor: '#323232',
+        pos: 'bottom-left',
+        duration: 5000,
+        customClass: '',
+        onActionClick: function(element) {
+            element.style.opacity = 0;
+        },
+        onSecondButtonClick: function(element) {},
+        onClose: function(element) {}
+    };
+
+    Snackbar.show = function($options) {
+        var options = Extend(true, $defaults, $options);
+
+        if (Snackbar.current) {
+            Snackbar.current.style.opacity = 0;
+            setTimeout(
+                function() {
+                    var $parent = this.parentElement;
+                    if ($parent)
+                    // possible null if too many/fast Snackbars
+                        $parent.removeChild(this);
+                }.bind(Snackbar.current),
+                500
+            );
+        }
+
+        Snackbar.snackbar = document.createElement('div');
+        Snackbar.snackbar.className = 'snackbar-container ' + options.customClass;
+        Snackbar.snackbar.style.width = options.width;
+        var $p = document.createElement('p');
+        $p.style.margin = 0;
+        $p.style.padding = 0;
+        $p.style.color = options.textColor;
+        $p.style.fontSize = '14px';
+        $p.style.fontWeight = 300;
+        $p.style.lineHeight = '1em';
+        $p.innerHTML = options.text;
+        Snackbar.snackbar.appendChild($p);
+        Snackbar.snackbar.style.background = options.backgroundColor;
+
+        if (options.showSecondButton) {
+            var secondButton = document.createElement('button');
+            secondButton.className = 'action';
+            secondButton.innerHTML = options.secondButtonText;
+            secondButton.setAttribute('aria-label', options.secondButtonAria);
+            secondButton.style.color = options.secondButtonTextColor;
+            secondButton.addEventListener('click', function() {
+                options.onSecondButtonClick(Snackbar.snackbar);
+            });
+            Snackbar.snackbar.appendChild(secondButton);
+        }
+
+        if (options.showAction) {
+            var actionButton = document.createElement('button');
+            actionButton.className = 'action';
+            actionButton.innerHTML = options.actionText;
+            actionButton.setAttribute('aria-label', options.actionTextAria);
+            actionButton.style.color = options.actionTextColor;
+            actionButton.addEventListener('click', function() {
+                options.onActionClick(Snackbar.snackbar);
+            });
+            Snackbar.snackbar.appendChild(actionButton);
+        }
+
+        if (options.duration) {
+            setTimeout(
+                function() {
+                    if (Snackbar.current === this) {
+                        Snackbar.current.style.opacity = 0;
+                        // When natural remove event occurs let's move the snackbar to its origins
+                        Snackbar.current.style.top = '-100px';
+                        Snackbar.current.style.bottom = '-100px';
+                    }
+                }.bind(Snackbar.snackbar),
+                options.duration
+            );
+        }
+
+        Snackbar.snackbar.addEventListener(
+            'transitionend',
+            function(event, elapsed) {
+                if (event.propertyName === 'opacity' && this.style.opacity === '0') {
+                    if (typeof(options.onClose) === 'function')
+                        options.onClose(this);
+
+                    this.parentElement.removeChild(this);
+                    if (Snackbar.current === this) {
+                        Snackbar.current = null;
+                    }
+                }
+            }.bind(Snackbar.snackbar)
+        );
+
+        Snackbar.current = Snackbar.snackbar;
+
+        document.body.appendChild(Snackbar.snackbar);
+        var $bottom = getComputedStyle(Snackbar.snackbar).bottom;
+        var $top = getComputedStyle(Snackbar.snackbar).top;
+        Snackbar.snackbar.style.opacity = 1;
+        Snackbar.snackbar.className =
+            'snackbar-container ' + options.customClass + ' snackbar-pos ' + options.pos;
+    };
+
+    Snackbar.close = function() {
+        if (Snackbar.current) {
+            Snackbar.current.style.opacity = 0;
+        }
+    };
+
+    // Pure JS Extend
+    // http://gomakethings.com/vanilla-javascript-version-of-jquery-extend/
+    var Extend = function() {
+        var extended = {};
+        var deep = false;
+        var i = 0;
+        var length = arguments.length;
+
+        if (Object.prototype.toString.call(arguments[0]) === '[object Boolean]') {
+            deep = arguments[0];
+            i++;
+        }
+
+        var merge = function(obj) {
+            for (var prop in obj) {
+                if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+                    if (deep && Object.prototype.toString.call(obj[prop]) === '[object Object]') {
+                        extended[prop] = Extend(true, extended[prop], obj[prop]);
+                    } else {
+                        extended[prop] = obj[prop];
+                    }
+                }
+            }
+        };
+
+        for (; i < length; i++) {
+            var obj = arguments[i];
+            merge(obj);
+        }
+
+        return extended;
+    };
+
+    return Snackbar;
+});
+
 
 /***/ })
 /******/ ]);

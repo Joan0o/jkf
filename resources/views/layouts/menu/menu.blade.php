@@ -10,14 +10,14 @@
                             @csrf
                             <meta name="csrf-token" content="{{ csrf_token() }}">
                             <fieldset>
-                                    @component('layouts.modal')
+                                @component('layouts.modal')
                                     @slot('modal') modal-contacto @endslot
                                     @slot('title') ¿A quien llamamos? @endslot
                                     @slot('content')
                                         <p>Para no hacer esto cada vez que reserves, <strong>registrate</strong></p>
                                         <div class="form-group">
                                             <label for="contacto"><strong>Numero de telefono</strong></label>
-                                            <input class="form-control" id="contacto" type="tel" name="contacto">
+                                            <input class="form-control" id="contacto" type="number" name="contacto">
                                         </div>
                                         <div class="form-group">
                                             <label for="nombre-contacto"><strong>Nombre</strong></label>

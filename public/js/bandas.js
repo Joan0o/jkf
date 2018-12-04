@@ -1,57 +1,36 @@
-var links = [];
-var inputs = [];
+$(document).on('click', '.btn-nuevo-integrante', function (e) {
 
-$(document).on('click', '.btn-añadir-link', function () {
-    var element = $(this).attr('data-id');
-    $(".link--" + element).append(
-        "<div class=\"input-group\">\n\
-            <input name=\"link\" type=\"text\" class=\"form-control\" placeholder=\"Link ... (youtube, soundcloud)\"> \n\
-            <div class=\"input-group-append\">\n\
-            <button class=\"btn btn-outline-secondary remove\" type=\"button\">x</button>\n\
-            </div>\n\
-            </div>"
-    );
-});
+    var banda = $("#banda_id").val();
+    var usuario = $('#select-integrante').val();
 
-$(document).on('click', '.remove', function () {
-    $(this).parent().parent().remove();
-});
-
-function fillLists(tis) {
-
-    var listas = $(tis).parent().parent().children(".añadir");
-
-    $(listas).children("div").children("div").children("input[name='link']").each(function (id, item) {
-        var item = $(item).val();
-        if (item !== "") {
-            links.push(item);
-            inputs.push($(this));
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
 
-    var yes = true;
-    if (links.length == 0) {
-        yes = window.confirm("La lista de links está vacia, ¿deseas continuar?");
-    }
-
-    if (inputs.length > 0 && yes) {
-        inputs.forEach(
-            function (item) {
-                $(item).val('');
-            });
-        inputs = [];
-    }
-
-    return yes;
-}
+    $.post({
+        method: 'post',
+        url: `bandas/${banda}/integrantes/nuevo/${usuario}`,
+        dataType: "html",
+        success: function (response) {
+            $(".hpm").html(response);
+            container = $('#nuevo-integrante');
+            if (!$(container).is(":hidden"))
+                $(container).hide();
+        },
+        error: function (err) {
+            console.log(err)
+        }
+    });
+});
 
 $(document).on('click', '.btn-nueva-cancion', function (e) {
 
-    var div_nuevaCancion = $(this).parent().parent();
+    var div_nuevaCancion = $('#nueva-cancion');
 
-    var nombre = $(div_nuevaCancion).children("input[name='nombre']");
-
-    var banda = $(div_nuevaCancion).children("#banda_id").val();
+    var nombre = $("#cancion_nombre").val();
+    var banda = $("#banda_id").val();
 
     $.ajaxSetup({
         headers: {
@@ -60,25 +39,22 @@ $(document).on('click', '.btn-nueva-cancion', function (e) {
     });
 
     if ($(nombre).val() != '') {
-        if (fillLists($(this))) {
-            $.post({
-                url: "canciones",
-                data: {
-
-                    "nombre": $(nombre).val(),
-                    "banda_id": banda,
-                    "links": JSON.stringify(links),
-                },
-                dataType: "html",
-                success: function (response) {
-                    $(div_nuevaCancion).hide('slow');
-                    $("#lista-de-canciones").html(response);;
-                },
-                error: function (err) {
-                    console.log(err)
-                }
-            });
-        }
+        $.post({
+            url: "canciones",
+            data: {
+                "nombre": nombre,
+                "banda_id": banda,
+                "links": $('#link-cancion').val(),
+            },
+            dataType: "html",
+            success: function (response) {
+                $(div_nuevaCancion).hide('slow');
+                $("#lista-de-canciones").html(response);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
     } else {
         e.preventDefault();
         $(nombre).toggleClass("error_campo", true);
@@ -86,8 +62,8 @@ $(document).on('click', '.btn-nueva-cancion', function (e) {
 
 });
 
-$(document).on('click', '#btn-show', function () {
-    var container = $(this).parent().children('#nueva-cancion');
+$(document).on('click', '#btn-show-cancion', function () {
+    var container = $('#nueva-cancion');
     if ($(container).is(":hidden")) {
         $(container).show("slow");
     } else {
@@ -95,14 +71,85 @@ $(document).on('click', '#btn-show', function () {
     }
 });
 
+$(document).on('click', '#btn-close', function () {
+    var container = $('#nueva-cancion');
+    if (!$(container).is(":hidden"))
+        $(container).hide();
+    container = $('#nuevo-integrante');
+    if (!$(container).is(":hidden"))
+        $(container).hide();
+});
+
+$(document).on('click', '#btn-show-integrantes', function () {
+    var container = $('#nuevo-integrante');
+    if ($(container).is(":hidden")) {
+        $(container).show("slow");
+    } else {
+        $(container).hide("slow");
+    }
+});
+
+$(document).on('click', '#btn-close', function () {
+    var container = $('#nueva-cancion');
+    if (!$(container).is(":hidden"))
+        $(container).hide();
+});
+
 var element = document.getElementById("my-calendar");
 
 // Create the calendar
 var myCalendar = jsCalendar.new(element);
 
-$('#m-e').on('click', function () {
-    $('#my-calendar').children()[1].remove()
-})
+
+function lista_reservas(date) {
+    var p_k = 0;
+
+    $.get("/ensayos/" + date.DateToString(), function (data) {
+        if (data) {
+            $('#horas-ensayo').html('');
+            data.forEach((e, i) => {
+                hora = e['hora'];
+                duracion = parseInt(hora) + parseInt(e['duracion']);
+
+                if (hora > 12) {
+                    hora = (hora - 12) + ' pm'; duracion = (duracion - 12) + ' pm'
+                }
+
+                var content = $('meta[name="csrf-token"]').attr('content');
+
+                var ensayo_id = e['id'];
+                var banda = e['nombre'];
+
+                if (e['from_user'] == 'true') {
+                    p_k++;
+                    $("#horas-ensayo").append(
+                        '<div class="list-group-item list-group-item-action">' +
+                        'De ' + hora + ' a ' + duracion +
+                        '<span class="badge badge-warning" style="margin-left:10px;">' + e['nombre'] + '</span>' +
+                        '<input class="btn btn-danger btn-asunto" style="margin-left:30px" type="button" ensayo_id=' + ensayo_id + ' value="Cancelar">' +
+                        '<form style="display:none" id="form-razon' + ensayo_id + '" action="ensayos/' + ensayo_id + '" method="post" class="form-group form-razon">' +
+                        '<meta name="csrf-token" content="' + content + '">' +
+                        '<input type="hidden" id="ensayo_id" value="">' +
+                        '<input type="hidden" name="banda" value="' + banda + '">' +
+                        '<p>No hay lio, cuentanos porqué no puedes asistir ...</p>' +
+                        '<div class="form-group">' +
+                        '<input type="text" class="form-control" placeholder="No puedo ..." id="razon" name="detalles">' +
+                        '</div>' +
+                        '<input class="btn btn-danger" type="submit" value="Eliminar reserva">' +
+                        '<a style="display:inline; margin-left:30px" class="btn btn-outline-secondary btn-asunto">cancelar</a>' +
+                        '</form>' +
+                        '</div>'
+                    );
+                }
+
+            })
+            if (p_k == 0) {
+                $("#horas-ensayo").append(
+                    '<div class="list-group-item list-group-item-action">Ninguna de tus bandas tiene reservas registradas</div>');
+            }
+        }
+    });
+}
 
 // Add events
 myCalendar.onDateClick(function (event, date) {
@@ -119,33 +166,35 @@ myCalendar.onDateClick(function (event, date) {
 
     myCalendar.set(s);
 
-    $.get("/ensayos/" + date.DateToString(), function (data) {
-        if (data) {
-            $('#horas-ensayo').html('');
-            data.forEach((e, i) => {
-                hora = e['hora'];
-                duracion = parseInt(hora) + parseInt(e['duracion']);
+    lista_reservas(date);
 
-                if (hora > 12) {
-                    hora = (hora - 12) + ' pm'; duracion = (duracion - 12) + ' pm'
-                }
-
-                if (e['from_user'] == 'true') {
-                    $("#horas-ensayo").append(
-                        '<a class="list-group-item list-group-item-action">' +
-                        'De ' + hora +
-                        ' a ' + duracion +
-                        '<span class="badge badge-warning" style="margin-left:10px;">' + e['nombre'] + '</span>'
-                        + '</a>'
-                    );
-                }
-
-            })
-        }
-    });
 });
 
-$(".tag-banda").on('click', function () {
+$('#calendar-modal').on('show.bs.modal', function () {
+    $('#my-calendar').children()[1].remove()
+    lista_reservas(fecha);
+})
+$('#calendar-modal').on('shown.bs.modal', function () {
+    $('#my-calendar').children()[1].remove()
+})
+
+$(document).on('click', '.btn-asunto', (e) => {
+    var attr = $(e.currentTarget).attr('ensayo_id');
+
+    var container = $('.form-razon');
+    $(container).hide();
+
+    container = $('#form-razon' + attr);
+    $(container).show();
+})
+
+$(document).on('click', '#btn-cancelar-reserva', (e) => {
+    if (!confirm('¿Estas seguro?')) {
+        e.preventDefault();
+    }
+})
+
+$(document).on('click', "#tag-banda", function () {
     var banda_id = $(this).attr("banda_id");
     $.ajax({
         type: "get",
@@ -191,18 +240,26 @@ $(document).on('click', '#btn-eliminar-banda', function () {
     if (confirm('¿Estas serguro de querer eliminar esta banda?,\nNo podras acceder a su información ni compartirla de nuevo')) {
         $.ajaxSetup({
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-          });
-          
+        });
+
         $.ajax({
             url: '/bandas/' + b_id,
             type: 'DELETE',
             success: function (result) {
-                alert('Banda eliminada');
+                $.get('bandasusu', (r) => { 
+                    r = JSON.parse(r);
+                    $('#banda_id').html(''); r.forEach((e) => { 
+                        $('#banda_id').append('<option value="' + e.id + '">' + e.nombre + '</option>') 
+                    }) 
+                    $('#banda_id').append('<option value="1">otra ..</option>');
+                });
                 $('[banda_id=' + b_id + ']').remove();
+                Snackbar.show({ text: result, pos: 'bottom-left' });
             },
-            error: function(error) {
+            error: function (error) {
+                Snackbar.show({ text: 'Ocurrió un error', pos: 'bottom-left' });
                 console.log(error);
             }
         });

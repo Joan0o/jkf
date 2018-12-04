@@ -10,24 +10,17 @@ use Illuminate\Support\Facades\Auth;
 class BandaController extends Controller
 {
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function nuevo_integrante($banda_id, $id)
     {
-        //
-    }
+        DB::table('usuario_has_banda')->insert(
+            [
+                'usuario_id' => $id,
+                'banda_id' => $banda_id,
+                'activo' => "1",
+            ]
+        );
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
+        return view('layouts.bandas.pills')->with('collection', banda::find($banda_id)->integrantes)->render();
     }
 
     /**
@@ -45,13 +38,13 @@ class BandaController extends Controller
 
         DB::table('usuario_has_banda')->insert(
             [
-                'usuario_id' => Auth::user()->id,
+                'usuario_id' => Auth::id(),
                 'banda_id' => $id,
                 'activo' => "1",
             ]
         );
 
-        return redirect('/');
+        return view('welcome')->with('mensaje', 'Banda registrada!');
     }
 
     /**
@@ -79,10 +72,14 @@ class BandaController extends Controller
         ])->render();
     }
 
-    public function destroy(Request $request,$id){
+    public function destroy(Request $request, $id){
+
         $banda = banda::find($id);
         $banda->estado = -1;
-        $banda->save;
+        $banda->save();
+
+        return 'Banda eliminada';
+
     }
     
     /**

@@ -16,7 +16,7 @@ class banda extends Model
 
 
     public function integrantes(){
-        return $this->belongsToMany('App\usuario', 'usuario_has_banda');
+        return $this->belongsToMany('App\usuario', 'usuario_has_banda')->where('activo', '=', 1);
     }
     public function canciones(){
         return $this->hasMany('App\cancion');

@@ -16,13 +16,14 @@
         <title>J K F</title>
 
         <!--====== FAVICON ICON =======-->
-        <link rel="shortcut icon" type="img/ico" href="img/drumstick.sgv" />
+        <link rel="shortcut icon" type="img/ico" href="img/drumstick.png" />
 
         <!--====== STYLESHEETS ======-->
         <link href="css/plugins/bootstrap.min.css" rel="stylesheet">
         <script src="js/vendor/jquery.js"></script>
         <script src="js/vendor/popper.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
+
         <!-- jsCalendar style -->
         <link rel="stylesheet" type="text/css" href="js/jsCalendar/jsCalendar.css">
         <!-- jsCalendar script -->
@@ -33,6 +34,7 @@
         <link rel="stylesheet" href="fonts/fontawesome-webfont.svg">
 
         <link rel="stylesheet" href="css/theme.css"/>
+        
     </head>
     <body>
     <!-- Material theme -->
@@ -55,25 +57,22 @@
 
                 @isset($bandas)
                     @if (count($bandas)>0)
-                        <section id="bandas">
-                        <div id="division">
-                            <div class="division">
-                                <h2>Bandas</h2>
+                    <div class="container" style="margin:60px auto 60px auto">
+                        <div class="card">
+                            <div class="card-header">
+                                Bandas
                             </div>
-                        </div>
-                        <div class="container">
-                            <div class="tagCloud tag-div">
-                                <ul>
+                            <div class="card-body">
+                                <div class="container">
                                     @foreach ($bandas as $banda)
-                                        <li>
-                                            <a class="tag-banda @if(\App\usuario::from_user($banda))from-user @endif" banda_id="{{ $banda->id }}">
+                                            <a id="tag-banda" class="btn btn-outline-success @if(\App\usuario::from_user($banda))from-user @endif" banda_id="{{ $banda->id }}">
                                                 {{ $banda->nombre }}
                                             </a>
-                                        </li>
                                     @endforeach
-                                </ul>
+                                </div>
                             </div>
                         </div>
+                    </div>
                     </section>
                     @endif
                 @endisset
@@ -149,11 +148,16 @@
                     </center>
                 @endslot
             @endcomponent
+            
         </div>
 
         <script src="js/bandas.js"></script>
         <script src="js/app.js"></script>
-        
+        <script>
+            @isset($mensaje)
+                Snackbar.show({pos: 'bottom-left', text: '{{ $mensaje }}' });
+            @endisset
+        </script>
 
     </body>
 </html>

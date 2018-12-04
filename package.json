@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "laravel-echo": "^1.4.1",
+        "node-snackbar": "^0.1.15",
         "pusher-js": "^4.3.1"
     }
 }

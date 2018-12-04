@@ -15,12 +15,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::any('bandasusu', function(){
+    return json_encode(Auth::user()->bandas);
+});
 Route::get('ensayos/{fecha}', 'EnsayoController@ensayos');
 Route::post('ensayos/reservar', 'EnsayoController@store');
+Route::post('ensayos/{id}', 'EnsayoController@cancelarEnsayo');
+Route::put('ensayos/{id}', 'EnsayoController@Editar');
+Route::get('ensayos/cancelar/{$id}', function($id){
+    return view('modals.razon')->with($id);
+});
 
 Auth::routes();
 
 Route::resource('bandas', 'BandaController');
+Route::post('bandas/{banda_id}/integrantes/nuevo/{id}', 'BandaController@nuevo_integrante');
 Route::resource('canciones', 'CancionController')->only(['store']);
 Route::resource('cursos', 'CursoController');
 Route::get('curso/buscar', 'CursoController@buscar');

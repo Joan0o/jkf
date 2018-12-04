@@ -7,6 +7,9 @@
 /*TAGS*/
 @import url("core/tags.css");
 
+/*PLUGINS*/
+@import url("plugins/snackbar.min.css");
+
 .container-background{
     background-image: url("../img/background-clouds2.jpg");
     margin: 0;

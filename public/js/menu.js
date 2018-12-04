@@ -1,3 +1,4 @@
+// e n v //
 Date.prototype.DateToString = function () {
     t = new Date(this.valueOf());
 
@@ -15,12 +16,13 @@ Date.prototype.DateToString = function () {
 
     return today;
 }
-
 var horario = [];
 var horas_reservadas = [];
-
 var fecha = new Date();
-
+var selected = -1;
+var cursos;
+var c_D = fecha.DateToString();
+var modalAbierto = false;
 
 $(document).ready(function () {
 
@@ -31,11 +33,37 @@ $(document).ready(function () {
     $('#fecha').append('<option value=' + mañana.DateToString() + '>mañana</option>');
 
     horas(fecha.DateToString(), fecha.DateToString(), duracion);
+
+    $('#modal-contacto').on('hide.bs.modal', function () {
+        $('#contacto').prop('required', false)
+        $('#nombre-contacto').prop('required', false)
+        modalAbierto = false;
+    })
 });
-
-var selected = -1;
-var cursos;
-
+$(function () {
+    $.get('curso/buscar', function (r) {
+        cursos = JSON.parse(r);
+        autocomplete(document.getElementById("buscar-cursos"), cursos);
+    });
+    $('#buscar-curso-btn').click((e) => {
+        e.preventDefault();
+        if (selected != -1) {
+            location.hash = 'cursos-' + selected;
+            $.ajax({
+                type: "get",
+                url: 'cursos/' + selected,
+                dataType: "html",
+                success: function (response) {
+                    $('#modal-ajax').html(response);
+                    $('#m-c-curso').modal();
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            })
+        }
+    })
+})
 function autocomplete(inp, arr) {
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/
@@ -123,45 +151,50 @@ function autocomplete(inp, arr) {
     });
 }
 
-$(function() {
-    $.get('curso/buscar', function (r) {
-        cursos = JSON.parse(r);
-        autocomplete(document.getElementById("buscar-cursos"), cursos);
-    });
-    $('#buscar-curso-btn').click((e) => {
-        e.preventDefault();
-        if(selected != -1){
-            location.hash = 'cursos-'+selected;
-            $.ajax({
-                type: "get",
-                url: 'cursos/'+selected,
-                dataType: "html",
-                success: function (response) {
-                    $('#modal-ajax').html(response);
-                    $('#m-c-curso').modal();
-                },
-                error: function (e) {
-                    console.log(e);
-                }
-            })
-        }
-    })
-})
-
-/*initiate the autocomplete function on the "buscar-cursos" element, and pass along the countries array as possible autocomplete values:*/
-
-var c_D = fecha.DateToString();
-
+// D O M //
 $('#fecha').on('change', function () {
     c_D = $("#fecha option:selected").val();
     horas(c_D, fecha.DateToString(), duracion);
 });
+$('#horas').on('change', function () {
+    duracion();
+})
+function showModal() {
+    modalAbierto = true;
+    $('#contacto').prop('required', true)
+    $('#nombre-contacto').prop('required', true)
+    $('#modal-contacto').modal();
+}
+function duracion() {
+    var hora = $("#horas option:selected").val();
+    var index = $("#horas option:selected")[0].index;
+    var nh = $($('#horas option')[index + 1]).val();
+    hora = hora.substring(hora.length - 3, hora.length);
+    nh = (nh) ? nh.substring(nh.length - 3, nh.length) : -1;
+    hora = parseInt(hora);
+    nh = parseInt(nh);
+
+    if (hora + 1 != nh)
+        $('#r2').hide();
+    else
+        $('#r2').show();
+}
+
+function imageIsLoaded(e) {
+    $("#user-img").css("color", "green");
+    $('#image_preview').css("display", "block");
+    $('#previewing').attr('src', e.target.result);
+    $('#previewing').attr('width', '250px');
+    $('#previewing').attr('height', '230px');
+};
+
+// A J A X //
 
 function horas(date, today, callback = null) {
 
     horario = [];
 
-    let hora_de_hoy = (date != today) ? 7 : fecha.getHours();
+    let hora_de_hoy = (date != today) ? 7 : fecha.getHours() + 1;
     if (hora_de_hoy < 7) {
         hora_de_hoy = 7;
     }
@@ -185,29 +218,36 @@ function horas(date, today, callback = null) {
             type: 'get',
             url: 'ensayos/' + date,
             success: function (response) {
-                for (let i = 0; i < horario.length; i++) {
-                    if (response) {
-                        response.forEach((e, j) => {
-                            if (e["hora"] == horario[i]) {
-                                i++;
-                                if (parseInt(e["duracion"]) > 1) {
+                try {
+                    for (let i = 0; i < horario.length; i++) {
+                        if (response) {
+                            response.forEach((e, j) => {
+                                if (e["hora"] == horario[i]) {
                                     i++;
+                                    if (parseInt(e["duracion"]) > 1) {
+                                        i++;
+                                    }
                                 }
-                            }
-                        });
+
+                            });
+                        }
+
+                        if (i >= horario.length) {
+                            return;
+                        }
+
+                        let hora = (horario[i] > 12) ? horario[i] - 12 + " pm" : horario[i] + " am";
+
+                        $("#horas").append('<option value="' + horario[i] + '">' + hora + '</option>');
                     }
+                } catch (error) {
 
-                    if (i >= horario.length) {
-                        return;
+                } finally {
+                    if ($('#horas').has('option').length == 0) {
+                        $("#horas").append('<option>Ya no puedes ensayar hoy, reserva mañana!</option>');
+                        $('#reservar').prop('disabled', true);
                     }
-
-                    let hora = (horario[i] > 12) ? horario[i] - 12 + " pm" : horario[i] + " am";
-
-                    $("#horas").append('<option value="' + horario[i] + '">' + hora + '</option>');
-                    duracion();
                 }
-
-                if ($("#horas option").length == 0) $("#horas").append('<option>Ya no puedes ensayar hoy, reserva mañana!</option>');
 
                 if (callback) callback();
             }
@@ -219,38 +259,15 @@ function horas(date, today, callback = null) {
     }
 
 }
-
-
-$('#horas').on('change', function () {
-    duracion();
-})
-
-function duracion() {
-    var hora = $("#horas option:selected").val();
-    var index = $("#horas option:selected")[0].index;
-    var nh = $($('#horas option')[index + 1]).val();
-    hora = hora.substring(hora.length - 3, hora.length);
-    nh = (nh) ? nh.substring(nh.length - 3, nh.length) : -1;
-    hora = parseInt(hora);
-    nh = parseInt(nh);
-
-    if (hora + 1 != nh)
-        $('#r2').hide();
-    else
-        $('#r2').show();
-}
-
-var modalAbierto = false;
-
-function showModal() {
-    modalAbierto = true;
-    $('#contacto').prop('required', true)
-    $('#contacto-nombre').prop('required', true)
-    $('#modal-contacto').modal();
-}
-
 $("#form-reserva").on('submit', function (e) {
-    if ($('#banda_id').val() == "1" != modalAbierto) {
+    if (modalAbierto) {
+        if ($('#contacto').val() == "" || $('#nombre-contacto').val() == "") {
+            alert('Ocurrió un error');
+            e.preventDefault()
+            return;
+        }
+    }
+    if ($('#banda_id').val() == "1" && !modalAbierto) {
         showModal();
         e.preventDefault();
         return;
@@ -274,24 +291,19 @@ $("#form-reserva").on('submit', function (e) {
     $.post({
         url: "ensayos/reservar",
         data: form.serialize(), // serializes the form's elements.
-        success: () => {
+        success: (success) => {
             $('#modal-contacto').modal('hide');
-            horas(c_D, fecha.DateToString());
+            Snackbar.show({ pos: 'bottom-left', text: success }); //Set the position
+
         },
         error: (error) => {
-            console.log(error)
+            Snackbar.show({ pos: 'bottom-left', text: 'error' }); //Set the position
         }
     });
 
+    horas(c_D, fecha.DateToString());
     e.preventDefault();
 })
-
-$('#modal-contacto').on('hidden.bs.modal', function () {
-    $('#contacto').prop('required', false)
-    $('#contacto-nombre').prop('required', false)
-    modalAbierto = false;
-})
-
 $(function () {
     $("#user-img").change(function () {
         var file = this.files[0];
@@ -309,11 +321,3 @@ $(function () {
         }
     });
 });
-
-function imageIsLoaded(e) {
-    $("#user-img").css("color", "green");
-    $('#image_preview').css("display", "block");
-    $('#previewing').attr('src', e.target.result);
-    $('#previewing').attr('width', '250px');
-    $('#previewing').attr('height', '230px');
-};

@@ -1,182 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>J K F - ADMIN</title>
     
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>J K F - admin</title>
+
+    <style>/*!
+            * Start Bootstrap - Simple Sidebar HTML Template (https://startbootstrap.com)
+            * Code licensed under the Apache License v2.0.
+            * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+            */
+           
+           /* Toggle Styles */
+           
+           #wrapper {
+               padding-left: 0;
+               -webkit-transition: all 0.5s ease;
+               -moz-transition: all 0.5s ease;
+               -o-transition: all 0.5s ease;
+               transition: all 0.5s ease;
+           }
+           
+           #wrapper.toggled {
+               padding-left: 250px;
+           }
+           
+           #sidebar-wrapper {
+               z-index: 1000;
+               position: fixed;
+               left: 250px;
+               width: 0;
+               height: 100%;
+               margin-left: -250px;
+               overflow-y: auto;
+               background: #000;
+               -webkit-transition: all 0.5s ease;
+               -moz-transition: all 0.5s ease;
+               -o-transition: all 0.5s ease;
+               transition: all 0.5s ease;
+           }
+           
+           #wrapper.toggled #sidebar-wrapper {
+               width: 250px;
+           }
+           
+           #page-content-wrapper {
+               width: 100%;
+               position: absolute;
+               padding: 15px;
+           }
+           
+           #wrapper.toggled #page-content-wrapper {
+               position: absolute;
+               margin-right: -250px;
+           }
+           
+           /* Sidebar Styles */
+           
+           .sidebar-nav {
+               position: absolute;
+               top: 0;
+               width: 250px;
+               margin: 0;
+               padding: 0;
+               list-style: none;
+           }
+           
+           .sidebar-nav li {
+               text-indent: 20px;
+               line-height: 40px;
+           }
+           
+           .sidebar-nav li a {
+               display: block;
+               text-decoration: none;
+               color: #999999;
+           }
+           
+           .sidebar-nav li a:hover {
+               text-decoration: none;
+               color: #fff;
+               background: rgba(255,255,255,0.2);
+           }
+           
+           .sidebar-nav li a:active,
+           .sidebar-nav li a:focus {
+               text-decoration: none;
+           }
+           
+           .sidebar-nav > .sidebar-brand {
+               height: 65px;
+               font-size: 18px;
+               line-height: 60px;
+           }
+           
+           .sidebar-nav > .sidebar-brand a {
+               color: #999999;
+           }
+           
+           .sidebar-nav > .sidebar-brand a:hover {
+               color: #fff;
+               background: none;
+           }
+           
+           @media(max-width:3000px) {
+               #wrapper {
+                   padding-left: 250px;
+               }
+           
+               #wrapper.toggled {
+                   padding-left: 0;
+               }
+           
+               #sidebar-wrapper {
+                   width: 250px;
+               }
+           
+               #wrapper.toggled #sidebar-wrapper {
+                   width: 0;
+               }
+           
+               #page-content-wrapper {
+                   padding: 20px;
+                   position: relative;
+               }
+           
+               #wrapper.toggled #page-content-wrapper {
+                   position: relative;
+                   margin-right: 0;
+               }
+           }
+           </style>
+
+    
+
+<!-- Latest compiled and minified CSS -->
+    <link href="css/plugins/bootstrap.min.css" rel="stylesheet">
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/vendor/popper.min.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
 
     <!-- jsCalendar style -->
     <link rel="stylesheet" type="text/css" href="js/jsCalendar/jsCalendar.css">
-        <!-- jsCalendar script -->
-        <script type="text/javascript" src="js/jsCalendar/jsCalendar.js"></script>
-        <script type="text/javascript" src="js/jsCalendar/jsCalendar.lang.es.js"></script>
-    <!------ Include the above in your HEAD tag ---------->
-    <style>
-    body,html{
-    height: 100%;
-    display: flex;
-  }
+    <!-- jsCalendar script -->
+    <script type="text/javascript" src="js/jsCalendar/jsCalendar.js"></script>
+    <script type="text/javascript" src="js/jsCalendar/jsCalendar.lang.es.js"></script>
 
-  nav.sidebar, .main{
-    -webkit-transition: margin 200ms ease-out;
-      -moz-transition: margin 200ms ease-out;
-      -o-transition: margin 200ms ease-out;
-      transition: margin 200ms ease-out;
-  }
-
-  .main{
-    padding: 10px 10px 0 10px;
-  }
-
- @media (min-width: 500px) {
-    .main{
-      position: absolute;
-      width: calc(100% - 40px);
-      margin-left: 30px;
-      float: right;
-    }
-
-    nav.sidebar:hover + .main{
-      margin-left: 200px;
-    }
-
-    nav.sidebar.navbar.sidebar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
-      margin-left: 0px;
-    }
-
-    nav.sidebar .navbar-brand, nav.sidebar .navbar-header{
-      text-align: center;
-      width: 100%;
-      margin-left: 0px;
-    }
-
-    nav.sidebar a{
-      padding-right: 13px;
-    }
-
-    nav.sidebar .navbar-nav > li:first-child{
-      border-top: 1px #e5e5e5 solid;
-    }
-
-    nav.sidebar .navbar-nav > li{
-      border-bottom: 1px #e5e5e5 solid;
-    }
-
-    nav.sidebar .navbar-nav .open .dropdown-menu {
-      position: static;
-      float: none;
-      width: auto;
-      margin-top: 0;
-      background-color: transparent;
-      border: 0;
-      -webkit-box-shadow: none;
-      box-shadow: none;
-    }
-
-    nav.sidebar .navbar-collapse, nav.sidebar .container-fluid{
-      padding: 0 0px 0 0px;
-    }
-
-    .navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
-      color: #777;
-    }
-
-    nav.sidebar{
-      width: 200px;
-      height: 100%;
-      margin-left: -160px;
-      float: left;
-      margin-bottom: 0px;
-    }
-
-    nav.sidebar li {
-      width: 100%;
-    }
-
-    nav.sidebar:hover{
-      margin-left: 0px;
-    }
-
-    .forAnimate{
-      opacity: 0;
-    }
-  }
-
-  @media (min-width: 1330px) {
-
-    .main{
-      width: calc(100% - 200px);
-      margin-left: 200px;
-    }
-
-    nav.sidebar{
-      margin-left: 0px;
-      float: left;
-    }
-
-    nav.sidebar .forAnimate{
-      opacity: 1;
-    }
-  }
-
-  nav.sidebar .navbar-nav .open .dropdown-menu>li>a:hover, nav.sidebar .navbar-nav .open .dropdown-menu>li>a:focus {
-    color: #CCC;
-    background-color: transparent;
-  }
-
-  nav:hover .forAnimate{
-    opacity: 1;
-  }
-  section{
-    padding-left: 15px;
-  }
+    <style media="screen">
+      /*body { padding-top: 70px; }*/
+      #connectLogo {
+        height: 60px;
+        padding: 15px 0 5px 0;
+      }
+      .share-link {
+        line-height: 60px;
+        padding: 0 1em;
+        font-size: 2em;
+      }
     </style>
+
 </head>
+
 <body>
-<nav class="navbar navbar-default sidebar" role="navigation">
-    <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+
+    <nav class="navbar navbar-default NOnavbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+            
+          <button type="button" class="navbar-toggle collapsed menu-toggle btn btn-warning">
+                menu
+          </button>
+
+        </div>
+
+      </div>
+    </nav>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="dashboard">
+                        Reservas
+                    </a>
+                </li>
+                <li>
+                    <a href="cursos">Cursos</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+                <div id="page" style="padding: 50px">
+            
+                    </div>
+        
+        
+        <!-- /#page-content-wrapper -->
+
     </div>
-    <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="dashboard">Principal<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
-        <li ><a class="a" href="cursos">Cursos<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-th-list"></span></a></li>
-        <li ><a class="a" href="#">Ensayos<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-calendar"></span></a></li>
-        <li ><a href="#">Bandas<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-tags"></span></a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+    <!-- /#wrapper -->
 
-<div id="page" class="container"></div>
+    <!-- Menu Toggle Script -->
 
-<script>
-
-  var changed = false;
-  $("a").click(function (e) {
-    changed = true;
-    $.ajax({
-        url: $(this).attr('href'),
-        dataType: 'html', success: (r)=>{
-          $('#page').html(r);
-          location.hash = $(this).attr('href');
-        }
-      });
-      e.preventDefault();
-  });
+    
+    <script>
+       
   $(document).ready(function() {
-    if(!changed)
+   
+    location.hash = "dashboard";
       $.ajax({
         url: 'dashboard',
         dataType: 'html',
@@ -185,7 +227,25 @@
         }
       })
   });
-</script>
+    $(".menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    $("a").click(function (e) {
+    $.ajax({
+        url: $(this).attr('href'),
+        dataType: 'html', success: (r)=>{
+        ensayos = undefined;
+        ensayo = undefined;
+          $('#page').html(r);
+          location.hash = $(this).attr('href');
+        }
+      });
+      e.preventDefault();
+  });
+
+    </script>
 
 </body>
+
 </html>
