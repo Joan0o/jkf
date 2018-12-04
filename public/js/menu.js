@@ -293,7 +293,7 @@ $("#form-reserva").on('submit', function (e) {
         data: form.serialize(), // serializes the form's elements.
         success: (success) => {
             $('#modal-contacto').modal('hide');
-            Snackbar.show({ pos: 'bottom-left', text: success }); //Set the position
+            Snackbar.show({ pos: 'bottom-left', text: JSON.parse(success)['mensaje'] }); //Set the position
 
         },
         error: (error) => {

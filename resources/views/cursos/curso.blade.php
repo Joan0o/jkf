@@ -9,7 +9,7 @@
                 </p>
                 <h4>Tags</h4>
                 <div class="tags">
-                    @if(count($curso->temas) > 0)
+                    @if(false)
                             @foreach ($curso->temas as $tema)
                                 <span class="badge badge-pill badge-primary">$tema->nombre</span>
                             @endforeach

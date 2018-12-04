@@ -2,8 +2,6 @@ Echo.channel('reservas')
     .listen('reserva', (e) => {
         hora = (e.reserva.hora > 12) ? (parseInt(e.reserva.hora) - 12) + " pm" : e.reserva.hora + " am";
         Snackbar.show({text: `nuevo ensayo registrado a las ${hora}`, pos: 'bottom-left'});
-        alert(location.href);
-        alert(location.href.includes('admin'));
         if(location.href.includes("/admin")){
                 $("#horas-ensayo").append(
                     '<a class="list-group-item list-group-item-action">' +

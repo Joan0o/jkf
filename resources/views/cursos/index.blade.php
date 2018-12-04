@@ -4,7 +4,7 @@
 <div class="curso-wrapper">
     <div class="buscar">
         <div class="card buscar">
-        <h5 class="card-header">Cursos</h5>
+        <h5 class="card-header">Buscar cursos</h5>
         <div class="card-body ">
             <div class="form-group">
                 <input class="form-control" type="text" id="buscar-cursos" name="query">

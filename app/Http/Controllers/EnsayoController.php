@@ -126,10 +126,10 @@ class EnsayoController extends Controller
         } catch (Exception $e) {
 
         } finally {
-            return back() - with('mensaje', 'Ensayo cancelado, ocurrió un error enviando las notificaciones');
+            return view('welcome')->with('mensaje', 'Ensayo cancelado, ocurrió un error enviando las notificaciones');
         }
 
-        return view('welcome') - with('mensaje', 'Ensayo cancelado');
+        return view('welcome')->with('mensaje', 'Ensayo cancelado');
     }
 
     public function Editar(Request $data, $id)

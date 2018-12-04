@@ -169,7 +169,7 @@ $(document).on('click', '.btn-confirmar', (e) => {
         return l.id == attr;
     });
 
-    $('#info').html('Esta banda ensayó dos horas, debe <strong>'+(ensayo.duracion*2000)+' pesos </strong>');
+    $('#info').html('Esta banda ensayó '+((ensayo.duracion == 1)?'una hora':'dos horas')+', debe <strong>'+(ensayo.duracion*2000)+' pesos </strong>');
     $('#editar').modal();
 })
 
