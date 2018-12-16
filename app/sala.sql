@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `banda`
 --
 
-create database sala;
-use sala;
+create if not exists database id5714378_sala;
+use id5714378_sala;
 
 CREATE TABLE `banda` (
   `id` int(11) NOT NULL,
