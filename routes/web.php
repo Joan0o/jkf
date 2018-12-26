@@ -11,20 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Controller@principal');
 
-Route::any('bandasusu', function(){
-    return json_encode(Auth::user()->bandas);
-});
+Route::any('bandasusu', 'Controller@bandasusu');
 Route::get('ensayos/{fecha}', 'EnsayoController@ensayos');
 Route::post('ensayos/reservar', 'EnsayoController@store');
 Route::post('ensayos/{id}', 'EnsayoController@cancelarEnsayo');
 Route::put('ensayos/{id}', 'EnsayoController@Editar');
-Route::get('ensayos/cancelar/{$id}', function($id){
-    return view('modals.razon')->with($id);
-});
+Route::get('ensayos/cancelar/{$id}', 'Controller@cancelar_ensayo');
 
 Auth::routes();
 
